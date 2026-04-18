@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  html {
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  body {
+    @apply bg-bone text-ink dark:bg-forest dark:text-moss-300;
+    background-image:
+      radial-gradient(1200px 600px at 10% -10%, rgba(123, 174, 111, 0.10), transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, rgba(192, 139, 76, 0.08), transparent 60%);
+    background-attachment: fixed;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  ::selection {
+    @apply bg-lichen/40 text-ink dark:text-moss-300;
+  }
+  :focus-visible {
+    outline: 2px solid #7BAE6F;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-card border bg-white/70 backdrop-blur-sm shadow-card-light
+           border-stone
+           dark:border-canopy dark:bg-canopy/50 dark:shadow-inner-panel;
+  }
+  .subtle-border {
+    @apply border-stone dark:border-canopy;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium
+           bg-stone text-ink dark:bg-canopy/70 dark:text-moss-300;
+  }
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-btn px-3 py-2 text-sm font-medium
+           transition-colors transition-transform duration-200
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-lichen focus-visible:ring-offset-0;
+  }
+  .btn-primary {
+    @apply btn bg-lichen text-white hover:bg-lichen/90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-ghost {
+    @apply btn text-ink/80 hover:bg-stone/70 dark:text-moss-300 dark:hover:bg-canopy/60;
+  }
+  .btn-danger {
+    @apply btn bg-alert/90 text-white hover:bg-alert;
+  }
+  .scroll-area {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(123, 174, 111, 0.5) transparent;
+  }
+  .scroll-area::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scroll-area::-webkit-scrollbar-thumb {
+    background: rgba(123, 174, 111, 0.4);
+    border-radius: 999px;
+  }
+  .wordmark {
+    font-family: 'Fraunces', Georgia, Cambria, 'Times New Roman', serif;
+    font-feature-settings: 'ss01';
+    letter-spacing: -0.005em;
+  }
+  .heading-serif {
+    font-family: 'Fraunces', Georgia, Cambria, serif;
+    letter-spacing: -0.005em;
+  }
+}
+
+.thinking-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  display: inline-block;
+  animation: pulseDot 1.2s ease-in-out infinite;
+}
+.thinking-dot:nth-child(2) { animation-delay: 0.15s; }
+.thinking-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadein, .thinking-dot {
+    animation: none !important;
+  }
+  .btn-primary:active {
+    transform: none;
+  }
+}
