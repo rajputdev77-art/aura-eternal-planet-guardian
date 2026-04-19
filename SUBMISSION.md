@@ -12,7 +12,7 @@ Aura is a stateful environmental coach. Every habit you report, every goal you c
 
 ## Demo
 
-- **Live demo:** *(paste Vercel URL here after deploy)*
+- **Live demo:** https://aura-eternal-planet-guardian.vercel.app
 - **60-second walkthrough:** *(paste video / GIF link after recording — see [DEMO_SCRIPT.md](DEMO_SCRIPT.md))*
 
 ## Why Backboard is the soul of this project
@@ -126,7 +126,7 @@ The bottleneck in climate action at the individual level is not awareness — pe
 
 ## Links
 
-- **Repo:** *(paste repo URL here)*
+- **Repo:** https://github.com/rajputdev77-art/aura-eternal-planet-guardian
 - **Live demo:** *(paste Vercel URL here)*
 - **Docs:** [README.md](README.md) · [DECISIONS.md](DECISIONS.md) · [DEMO_SCRIPT.md](DEMO_SCRIPT.md) · [BLOCKER.md](BLOCKER.md) · [HANDOFF.md](HANDOFF.md)
 
