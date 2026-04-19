@@ -15,15 +15,15 @@ The active backend is chosen at construction time:
 - If not set → localStorage (so the demo runs out of the box).
 - If the real API throws on first call (CORS, auth, network) → automatic fallback to localStorage with a console warning. The demo never breaks.
 
-## What the human still needs to do
+## Status — fully live
 
-To win the Backboard prize, the live deploy must talk to the real API:
+As of 2026-04-19 the API key is set in `.env` locally **and** in Vercel (Production + Development), and the production deploy at https://aura-eternal-planet-guardian.vercel.app is talking to the real Backboard API. To verify in a fresh browser:
 
-1. Sign up at https://app.backboard.io/.
-2. Generate an API key (Settings → API Keys).
-3. Add `VITE_BACKBOARD_API_KEY=<key>` to `.env` for local dev.
-4. Add `VITE_BACKBOARD_API_KEY` as a Vercel env var (Production + Preview + Development) before deploy.
-5. After deploy, open DevTools → Application → Local Storage → look for `aura:assistantId`. Its presence confirms a real Backboard assistant was created on first use. The Backboard dashboard will also show the new `aura-user-${userId}` assistant.
+1. Open the live URL.
+2. Send a chat message.
+3. DevTools → Application → Local Storage → confirm `aura:assistantId` is set. Its presence confirms a real Backboard assistant was created on first use. The Backboard dashboard will also show the new `aura-user-${userId}` assistant.
+
+For anyone forking the repo: copy `.env.example` to `.env`, fill `VITE_BACKBOARD_API_KEY` (key from Settings → API Keys at https://app.backboard.io/), and add the same var to your Vercel project before deploying.
 
 ## Known constraints
 

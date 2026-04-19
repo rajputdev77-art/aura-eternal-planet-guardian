@@ -74,7 +74,7 @@ Four methods, all async, all namespaced. That is enough surface for an entire st
 - **`BackboardBackend`** — the real Backboard REST API (`https://app.backboard.io/api`), `X-API-Key` auth, per-user assistant pattern (`aura-user-${userId}` auto-created on first call), memory CRUD via `POST/GET/DELETE /assistants/{aid}/memories`. Built directly from the patterns in the official [Backboard cookbook](https://github.com/Backboard-io/backboard_io_cookbook).
 - **`LocalStorageBackend`** — an identical async surface backed by the browser. Used when `VITE_BACKBOARD_API_KEY` is absent, and as an automatic fallback on the first network/CORS error so a stray transient never bricks a live demo.
 
-The active backend is decided at construction. The app code never knows which one is live — that's the contract the abstraction was built to enforce. See [BLOCKER.md](BLOCKER.md) for the deploy-time setup.
+The active backend is decided at construction. The app code never knows which one is live — that's the contract the abstraction was built to enforce. The live deploy at https://aura-eternal-planet-guardian.vercel.app is wired to the real Backboard API; see [BLOCKER.md](BLOCKER.md) for the verification steps.
 
 ## Gemini as the brain
 
