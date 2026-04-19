@@ -13,8 +13,8 @@ Aura is a stateful environmental coach. Every habit you report, every goal you c
 ## Demo
 
 - **Live demo:** https://aura-eternal-planet-guardian.vercel.app
-- **60-second walkthrough:** ![Aura demo — three turns, the third one recalls the first two](assets/demo.gif)
-- **Download HD video:** [assets/demo.mp4](assets/demo.mp4)
+- **60-second walkthrough:** ![Aura demo — three turns, the third one recalls the first two](https://raw.githubusercontent.com/rajputdev77-art/aura-eternal-planet-guardian/main/assets/demo.gif)
+- **Download HD video:** [assets/demo.mp4](https://github.com/rajputdev77-art/aura-eternal-planet-guardian/raw/main/assets/demo.mp4)
 
 The clip shows three turns: (1) "I cycled to work today", (2) "I want to eat less meat this month", (3) "Honestly today was rough — I drove to the store and got takeout". On turn 3 Aura explicitly recalls the earlier commitment to eating less meat — that line only exists because the earlier turns were written to Backboard.
 
