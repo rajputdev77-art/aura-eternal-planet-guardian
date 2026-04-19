@@ -13,7 +13,10 @@ Aura is a stateful environmental coach. Every habit you report, every goal you c
 ## Demo
 
 - **Live demo:** https://aura-eternal-planet-guardian.vercel.app
-- **60-second walkthrough:** *(paste video / GIF link after recording — see [DEMO_SCRIPT.md](DEMO_SCRIPT.md))*
+- **60-second walkthrough:** ![Aura demo — three turns, the third one recalls the first two](assets/demo.gif)
+- **Download HD video:** [assets/demo.mp4](assets/demo.mp4)
+
+The clip shows three turns: (1) "I cycled to work today", (2) "I want to eat less meat this month", (3) "Honestly today was rough — I drove to the store and got takeout". On turn 3 Aura explicitly recalls the earlier commitment to eating less meat — that line only exists because the earlier turns were written to Backboard.
 
 ## Why Backboard is the soul of this project
 
@@ -127,7 +130,7 @@ The bottleneck in climate action at the individual level is not awareness — pe
 ## Links
 
 - **Repo:** https://github.com/rajputdev77-art/aura-eternal-planet-guardian
-- **Live demo:** *(paste Vercel URL here)*
+- **Live demo:** https://aura-eternal-planet-guardian.vercel.app
 - **Docs:** [README.md](README.md) · [DECISIONS.md](DECISIONS.md) · [DEMO_SCRIPT.md](DEMO_SCRIPT.md) · [BLOCKER.md](BLOCKER.md) · [HANDOFF.md](HANDOFF.md)
 
 *Aura remembers. Gemini reasons. Your legacy grows.*
