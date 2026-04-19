@@ -67,7 +67,14 @@ Four methods, all async, all namespaced. That is enough surface for an entire st
 
 `userId` is generated once on first open (via `crypto.randomUUID()`) and stored. Every memory key is prefixed with it. This is what makes the memory *portable* in the Backboard sense: it is tied to an identity, not to a browser. When the real Backboard SDK lands, the same `userId` can carry the same memory from a laptop to a phone to a shared-device session to a future, unrelated feature that also wants to reason over the user's Green Legacy. The namespace is the passport.
 
-> **Honest note, April 2026:** the challenge folder handed to this build was empty and did not include the Backboard SDK / API reference. The current `BackboardClient` methods are backed by `localStorage` with the production-shaped async interface so nothing in `App.jsx` changes on swap. See [BLOCKER.md](BLOCKER.md). The substitution is a ~10-line edit inside `src/lib/backboard.js`. The entire rest of the application — system prompt, UI, scoring, dashboard — already treats memory as the source of truth.
+### What's actually wired
+
+`src/lib/backboard.js` ships with **two backends behind one client**:
+
+- **`BackboardBackend`** — the real Backboard REST API (`https://app.backboard.io/api`), `X-API-Key` auth, per-user assistant pattern (`aura-user-${userId}` auto-created on first call), memory CRUD via `POST/GET/DELETE /assistants/{aid}/memories`. Built directly from the patterns in the official [Backboard cookbook](https://github.com/Backboard-io/backboard_io_cookbook).
+- **`LocalStorageBackend`** — an identical async surface backed by the browser. Used when `VITE_BACKBOARD_API_KEY` is absent, and as an automatic fallback on the first network/CORS error so a stray transient never bricks a live demo.
+
+The active backend is decided at construction. The app code never knows which one is live — that's the contract the abstraction was built to enforce. See [BLOCKER.md](BLOCKER.md) for the deploy-time setup.
 
 ## Gemini as the brain
 
