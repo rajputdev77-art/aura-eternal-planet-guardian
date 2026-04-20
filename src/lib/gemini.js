@@ -1,4 +1,5 @@
 export const GEMINI_MODEL = 'gemini-2.5-flash';
+const FALLBACK_MODEL = 'gemini-2.0-flash';
 
 const ENDPOINT = (model, key) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
@@ -23,6 +24,15 @@ function extractText(raw) {
   } catch {
     return '';
   }
+}
+
+async function callModel(model, apiKey, body) {
+  const res = await fetch(ENDPOINT(model, apiKey), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  return res;
 }
 
 export async function askGemini(messages, systemPrompt, opts = {}) {
@@ -53,19 +63,27 @@ export async function askGemini(messages, systemPrompt, opts = {}) {
     ],
   };
 
-  const backoffs = [0, 600, 1800];
+  // Try primary model up to 4 times with jittered backoff, then fall back
+  // to a sibling model (different serving stack, often available when the
+  // primary is overloaded) for 2 more tries. Total ~20s worst case.
+  const plan = [
+    { model: GEMINI_MODEL, wait: 0 },
+    { model: GEMINI_MODEL, wait: 1000 },
+    { model: GEMINI_MODEL, wait: 2500 },
+    { model: GEMINI_MODEL, wait: 6000 },
+    { model: FALLBACK_MODEL, wait: 500 },
+    { model: FALLBACK_MODEL, wait: 3000 },
+  ];
+
   let lastError;
-  for (let attempt = 0; attempt < backoffs.length; attempt++) {
-    if (backoffs[attempt]) await sleep(backoffs[attempt]);
+  for (const { model, wait } of plan) {
+    if (wait) await sleep(wait + Math.floor(Math.random() * 400));
     try {
-      const res = await fetch(ENDPOINT(GEMINI_MODEL, apiKey), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+      const res = await callModel(model, apiKey, body);
       if (res.status === 429 || res.status >= 500) {
-        lastError = new Error(`Gemini transient error ${res.status}`);
+        lastError = new Error(`Gemini busy (${res.status}) on ${model}`);
         lastError.status = res.status;
+        lastError.transient = true;
         continue;
       }
       if (!res.ok) {
@@ -75,11 +93,16 @@ export async function askGemini(messages, systemPrompt, opts = {}) {
         throw err;
       }
       const raw = await res.json();
-      return { text: extractText(raw), raw };
+      return { text: extractText(raw), raw, model };
     } catch (e) {
       lastError = e;
       if (e.status && e.status !== 429 && e.status < 500) throw e;
     }
   }
-  throw lastError ?? new Error('Gemini request failed');
+  const overloaded = new Error(
+    'Gemini is currently overloaded. This is a temporary issue on Google\u2019s side \u2014 please try the message again in a few seconds.'
+  );
+  overloaded.transient = true;
+  overloaded.cause = lastError;
+  throw overloaded;
 }

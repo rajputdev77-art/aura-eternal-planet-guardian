@@ -571,16 +571,15 @@ export default function App() {
         setMemories(fresh);
       } catch (e) {
         console.error(e);
-        setError(e?.message ?? String(e));
+        const friendly = e?.transient
+          ? 'Gemini is overloaded at the moment \u2014 this happens on Google\u2019s side during peak hours. Give me a few seconds and send the message again.'
+          : e?.code === 'NO_KEY'
+            ? 'I cannot reach my reasoning engine yet. Please set VITE_GEMINI_API_KEY in .env and restart the dev server.'
+            : `Something interrupted me. ${e?.message ?? 'Unknown error'}`;
+        setError(e?.transient ? 'Gemini busy \u2014 try again in a moment.' : (e?.message ?? String(e)));
         dispatchMessages({
           type: 'APPEND',
-          message: {
-            role: 'assistant',
-            content:
-              e?.code === 'NO_KEY'
-                ? 'I cannot reach my reasoning engine yet. Please set VITE_GEMINI_API_KEY in .env and restart the dev server.'
-                : `Something interrupted me. ${e?.message ?? 'Unknown error'}`,
-          },
+          message: { role: 'assistant', content: friendly },
         });
       } finally {
         setSending(false);
